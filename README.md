@@ -1,25 +1,35 @@
 # Adalet E-İmza
 
-___Sign on UYAP portals with your smart card___
+Flatpak package of Adalet E-İmza, the Turkish Ministry of Justice's helper that lets
+browser-based UYAP systems sign with the certificate on a smart card or USB token.
 
-Adalet E-İmza is the Turkish Ministry of Justice's background service that lets browser-based UYAP systems sign with the certificate on a smart card or USB token.
-
----
-
-## Manual Install and Run
-
-Make sure you follow the [setup guide for your Linux distribution](https://flathub.org/en/setup) before installing.
+## Using it
 
 ```bash
 flatpak install flathub tr.gov.adalet.Eimza
 flatpak run tr.gov.adalet.Eimza
 ```
 
-The app listens on `127.0.0.1:5975`. Remove the upstream deb or AppImage first, otherwise both try to bind the same port. It does not start at login; launch it before signing.
+- The host needs a running `pcscd` and the driver for your card reader.
+- The app serves the browser on `127.0.0.1:5975`. Remove the ministry's deb or
+  AppImage first, otherwise both try to use that port.
+- It does not start at login. Launch it before signing.
 
 ## Building
 
 ```bash
-git clone --recurse-submodules git@github.com:flathub/tr.gov.adalet.Eimza.git
-flatpak run org.flatpak.Builder build-dir --user --ccache --force-clean --install tr.gov.adalet.Eimza.yaml
+git clone --recurse-submodules https://github.com/flathub/tr.gov.adalet.Eimza.git
+cd tr.gov.adalet.Eimza
+flatpak run --command=flathub-build org.flatpak.Builder tr.gov.adalet.Eimza.yaml
+flatpak install --user -y ./repo tr.gov.adalet.Eimza
+```
+
+## Updating
+
+The app runs on Flathub's OpenJDK instead of the launcher and Java bundled by the
+ministry, so `platform/adalet-eimza-tray.sh` repeats the launcher's JVM options.
+Before merging a version bump, check that they have not changed:
+
+```bash
+tools/launcher-options.sh | diff tools/launcher-options.txt -
 ```
