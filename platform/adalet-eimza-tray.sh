@@ -17,7 +17,11 @@ mkdir -p "$tmp"
 # apart from the temp dir, same options as upstream's launcher
 exec /app/jre/bin/java \
     -Djava.io.tmpdir="$tmp" \
+    --add-modules=java.logging,java.management,java.desktop,java.security.jgss,jdk.crypto.cryptoki \
     --add-exports=jdk.crypto.cryptoki/sun.security.pkcs11.wrapper=ALL-UNNAMED \
+    --add-opens=java.base/java.lang=ALL-UNNAMED \
+    --add-opens=java.base/java.util=ALL-UNNAMED \
+    --add-opens=java.smartcardio/sun.security.smartcardio=ALL-UNNAMED \
     -Xmx512m \
     -Dfile.encoding=UTF-8 \
     -Djava.net.useSystemProxies=true \
