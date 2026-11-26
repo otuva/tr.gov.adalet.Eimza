@@ -1,11 +1,11 @@
 #!/bin/sh
 # Prints the JVM options built into upstream's launcher.
 #
-# Before merging a version bump:   ./launcher-options.sh | diff launcher-options.txt -
+# Before merging a version bump:   tools/launcher-options.sh | diff tools/launcher-options.txt -
 # After porting a change to platform/adalet-eimza-tray.sh:
-#                                  ./launcher-options.sh > launcher-options.txt
+#                                  tools/launcher-options.sh > tools/launcher-options.txt
 set -e
-cd "$(dirname "$0")"
+cd "$(dirname "$0")/.."
 
 url=${1:-$(grep -o 'https://cdn\.uyap\.gov\.tr/[^ ]*\.deb' tr.gov.adalet.Eimza.yaml)}
 tmp=$(mktemp -d)
